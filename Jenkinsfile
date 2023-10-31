@@ -4,13 +4,11 @@ pipeline {
 
     tools{
         
-        node 'nodejs18.16.1'
+        nodejs 'nodejs18.16.1'
         
     }
 
-    environment {
-        PATH='/usr/local/bin:/usr/bin:/bin'
-	}
+   
 
     stages {
         stage('Git Checkout') {
