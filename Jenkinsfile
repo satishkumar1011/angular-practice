@@ -4,7 +4,7 @@ pipeline {
 
     tools{
         
-        nodejs 'nodejs18.16.1'
+        nodejs 'node'
         
     }
 
