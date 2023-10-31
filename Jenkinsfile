@@ -20,12 +20,12 @@ node{
     }
     
     withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
-        sh 'docker login -u satish1011 -p $PASSWORD'
+        bat 'docker login -u satish1011 -p $PASSWORD'
     }
 
 
     stage("Push Image to Docker Hub"){
-        sh 'docker push  satish1011/ngapp-test'
+        bat 'docker push  satish1011/ngapp-test'
     }
 
     
