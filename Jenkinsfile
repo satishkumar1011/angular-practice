@@ -4,7 +4,7 @@ pipeline {
 
     tools{
         
-        nodejs 'node16'
+        node 'node16'
         
     }
 
