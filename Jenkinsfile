@@ -39,7 +39,7 @@ node{
         } */
 
         stage('Deploy ang app') {
-           batCommand remote: remote, command: "kubectl apply -f test-deployment.yml"
+           bat remote: remote, command: "kubectl apply -f test-deployment.yml"
         }
     }
 
