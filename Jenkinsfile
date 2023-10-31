@@ -23,9 +23,11 @@ node{
         sh 'docker login -u satish1011 -p $PASSWORD'
     }
 
+
     stage("Push Image to Docker Hub"){
         sh 'docker push  satish1011/ngapp'
     }
 
     
+
 }
