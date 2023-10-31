@@ -1,15 +1,32 @@
-node{
-        stage('Checkout SCM'){
-          git branch: 'main', url: 'https://github.com/satishkumar1011/angular-practice.git'
-       
-        }
-       stage('Install node modules'){
-              sh "npm install"
-      
+pipeline {
+
+    agent any
+
+    environment {
+        PATH='/usr/local/bin:/usr/bin:/bin'
+	}
+
+    stages {
+
+       stage('Install node modules') {
+          steps {
+             sh 'npm install'
+         }
        }
 
-      stage('Build'){
-              sh "npm run build --prod"
-      
+       stage('Build') {
+          steps {
+             sh 'npm run ng -- build'
+             
+          }
        }
+
+      // stage('Stage Web Build') {
+        //  steps {
+          //    sh 'npm run build --prod'
+       //   }
+      // }
+
+      
+}
 }
