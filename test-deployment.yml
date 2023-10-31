@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ang-deployment
+  labels:
+    app: angtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angtest
+  template:
+    metadata:
+      labels:
+        app: angtest
+    spec:
+      containers:
+      - name: angtest
+        image: satish1011/ngapp-test:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ang-servie
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

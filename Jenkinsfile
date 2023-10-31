@@ -15,19 +15,32 @@ node{
     stage("Docker build"){
         bat 'docker version'
         bat 'docker build -t ngapp-test .'
-        //bat 'docker image list'
+        bat 'docker image list'
         bat 'docker tag  ngapp-test satish1011/ngapp-test'
     }
     
-    withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
+    /* withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
         bat 'docker login -u satish1011 -p $PASSWORD'
     }
 
 
     stage("Push Image to Docker Hub"){
         bat 'docker push  satish1011/ngapp-test'
-    }
+    } */
 
-    
+    stage("SSH Into k8s Server") {
+        def remote = [:]
+        remote.name = 'minikube'
+        remote.host = '127.0.0.1'
+        remote.allowAnyHosts = true
+
+        /* stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
+            sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
+        } */
+
+        stage('Deploy ang app') {
+           batCommand remote: remote, command: "kubectl apply -f test-deployment.yml"
+        }
+    }
 
 }
