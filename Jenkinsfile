@@ -12,11 +12,7 @@ pipeline {
                 sh "npm install"
             }
         }
-        stage('Deploy to Conatiner') {
-            steps {
-                sh "npm run compose:up -d"
-            }
-        }
+        
         
     }
 }
