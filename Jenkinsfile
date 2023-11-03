@@ -5,27 +5,27 @@ node{
         git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
     }
     stage("app install"){
-        bat 'npm install'
+        sh 'npm install'
         
     }
     stage("build"){
-        bat 'npm run build'
+        sh 'npm run build'
         
     }
     stage("Docker build"){
-        bat 'docker version'
-        bat 'docker build -t ngapp-test .'
-        bat 'docker image list'
-        bat 'docker tag  ngapp-test satish1011/ngapp-test'
+        sh 'docker version'
+        //sh 'docker build -t ngapp-test .'
+       // sh 'docker image list'
+       // sh 'docker tag  ngapp-test satish1011/ngapp-test'
     }
     
     /* withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
-        bat 'docker login -u satish1011 -p $PASSWORD'
+        sh 'docker login -u satish1011 -p $PASSWORD'
     }
 
 
     stage("Push Image to Docker Hub"){
-        bat 'docker push  satish1011/ngapp-test'
+        sh 'docker push  satish1011/ngapp-test'
     } */
 
     stage("SSH Into k8s Server") {
@@ -38,9 +38,9 @@ node{
             sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
         } */
 
-        stage('Deploy ang app') {
-           bat 'kubectl apply -f test-deployment.yml'
-        }
+       /* stage('Deploy ang app') {
+           sh 'kubectl apply -f test-deployment.yml'
+        }*/
     }
 
 }
