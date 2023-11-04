@@ -32,19 +32,15 @@ pipeline {
              sh 'docker build -t ngapp-test .'
        // sh 'docker image list'
              sh 'docker tag  ngapp-test satish1011/ngapp-test'
+             withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
+             sh 'docker login -u satish1011 -p $PASSWORD'
+    }
        }
     }
     
-    withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
-        steps{
-            sh 'docker login -u satish1011 -p $PASSWORD'
-        }
-    }
-
-
     stage("Push Image to Docker Hub"){
         steps{
-            sh 'docker push  satish1011/ngapp-test'
+             sh 'docker push  satish1011/ngapp-test'
         }
     } 
     
