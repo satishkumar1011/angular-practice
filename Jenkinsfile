@@ -7,36 +7,48 @@ pipeline {
                 CREDENTIALS_ID = 'practice1'
     }
     
-    node {
+    stages {
         stage("Git Clone"){
 
-        git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
+			steps{
+			    git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
+			}
     }
-    stage("app install"){
-        sh 'npm install'
-        
-    }
+        stage("app install"){
+            steps{
+                sh 'npm install'
+            }
+            
+        }
     stage("build"){
-        sh 'npm run build'
+        steps{
+            sh 'npm run build'
+        }
         
     }
     stage("Docker build"){
-        sh 'docker version'
-        sh 'docker build -t ngapp-test .'
+       steps{
+             sh 'docker version'
+             sh 'docker build -t ngapp-test .'
        // sh 'docker image list'
-        sh 'docker tag  ngapp-test satish1011/ngapp-test'
+             sh 'docker tag  ngapp-test satish1011/ngapp-test'
+       }
     }
     
     withCredentials([string(credentialsId: 'DOCKER_HUB_SECRET', variable: 'PASSWORD')]) {
-        sh 'docker login -u satish1011 -p $PASSWORD'
+        steps{
+            sh 'docker login -u satish1011 -p $PASSWORD'
+        }
     }
 
 
     stage("Push Image to Docker Hub"){
-        sh 'docker push  satish1011/ngapp-test'
+        steps[
+            sh 'docker push  satish1011/ngapp-test'
+        ]
     } 
     
-        stage('Deploy to K8s') {
+    stage('Deploy to K8s') {
             steps{
                 echo "Deployment started ..."
                 sh 'ls -ltr'
@@ -51,5 +63,5 @@ pipeline {
                   verifyDeployments: true])
                 }
             }
-        }    
+        }        
 }
