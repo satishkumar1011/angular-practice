@@ -1,6 +1,14 @@
-node{
+pipeline {
+    agent any
+    environment {
+        PROJECT_ID = 'oceanic-catcher-395616'
+                CLUSTER_NAME = 'angular-cluster'
+                LOCATION = 'us-central1'
+                CREDENTIALS_ID = 'practice1'
+    }
     
-    stage("Git Clone"){
+    stages {
+        stage("Git Clone"){
 
         git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
     }
@@ -27,13 +35,21 @@ node{
     stage("Push Image to Docker Hub"){
         sh 'docker push  satish1011/ngapp-test'
     } 
-
-    stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
-            sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
-        } 
-
-    stage('Deploy ang app') {
-           sh 'kubectl apply -f test-deployment.yml'
-        }
     
+        stage('Deploy to K8s') {
+            steps{
+                echo "Deployment started ..."
+                sh 'ls -ltr'
+                sh 'pwd'
+                sh "sed -i 's/pipeline:latest/pipeline:${env.BUILD_ID}/g' test-deployment.yaml"
+                step([$class: 'KubernetesEngineBuilder', \
+                  projectId: env.PROJECT_ID, \
+                  clusterName: env.CLUSTER_NAME, \
+                  location: env.LOCATION, \
+                  manifestPattern: 'deployment.yaml', \
+                  credentialsId: env.CREDENTIALS_ID, \
+                  verifyDeployments: true])
+                }
+            }
+        }    
 }
