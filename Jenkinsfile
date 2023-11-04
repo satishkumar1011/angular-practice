@@ -43,7 +43,7 @@ pipeline {
                 echo "Deployment started ..."
                 sh 'ls -ltr'
                 sh 'pwd'
-                sh "sed -i 's/pipeline:latest/pipeline:${env.BUILD_ID}/g' test-deployment.yml"
+                sh "sed -i 's/ngapp-test:latest/ngapp-test:${env.BUILD_ID}/g' test-deployment.yaml"
                 step([$class: 'KubernetesEngineBuilder', \
                   projectId: env.PROJECT_ID, \
                   clusterName: env.CLUSTER_NAME, \
