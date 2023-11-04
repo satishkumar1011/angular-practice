@@ -8,12 +8,6 @@ pipeline {
     }
     
     stages {
-        stage("Git Clone"){
-
-			steps{
-			    git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
-			}
-    }
         stage("app install"){
             steps{
                 sh 'npm install'
