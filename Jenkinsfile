@@ -43,9 +43,9 @@ pipeline {
 
 
     stage("Push Image to Docker Hub"){
-        steps[
+        steps{
             sh 'docker push  satish1011/ngapp-test'
-        ]
+        }
     } 
     
     stage('Deploy to K8s') {
