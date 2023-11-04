@@ -7,7 +7,7 @@ pipeline {
                 CREDENTIALS_ID = 'practice1'
     }
     
-    stages {
+    node {
         stage("Git Clone"){
 
         git branch: 'main', credentialsId: 'GIT_HUB_CREDENTIAL', url: 'https://github.com/satishkumar1011/angular-practice.git'
