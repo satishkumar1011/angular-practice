@@ -44,12 +44,12 @@ pipeline {
                 sh 'ls -ltr'
                 sh 'pwd'
                 sh "sed -i 's/ngapp-test:latest/ngapp-test:${env.BUILD_ID}/g' test-deployment.yml"
-                step([$class: 'KubernetesEngineBuilder', \
-                  projectId: env.PROJECT_ID, \
-                  clusterName: env.CLUSTER_NAME, \
-                  location: env.LOCATION, \
-                  manifestPattern: 'test-deployment.yml', \
-                  credentialsId: env.CREDENTIALS_ID, \
+                step([$class: 'KubernetesEngineBuilder', 
+                  projectId: env.PROJECT_ID, 
+                  clusterName: env.CLUSTER_NAME, 
+                  location: env.LOCATION, 
+                  manifestPattern: 'test-deployment.yml', 
+                  credentialsId: env.CREDENTIALS_ID, 
                   verifyDeployments: true])
                 }
             }
