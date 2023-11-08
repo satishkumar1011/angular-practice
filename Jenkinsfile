@@ -3,7 +3,7 @@ pipeline {
     environment {
         PROJECT_ID = 'oceanic-catcher-395616'
                 CLUSTER_NAME = 'angular-cluster'
-                LOCATION = 'us-central1-a'
+                LOCATION = 'us-central1'
                 CREDENTIALS_ID = 'kubernetes'
     }
     
